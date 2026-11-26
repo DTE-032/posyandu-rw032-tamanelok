@@ -1,0 +1,849 @@
+<!doctype html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="description" content="Aplikasi Layanan Kesehatan Masyarakat dan Tumbuh Kembang Anak — Posyandu RW 032 Taman Elok">
+  <title>Posyandu RW 032 Taman Elok — Aplikasi Kesehatan Masyarakat</title>
+  <link rel="icon" type="image/jpeg" href="https://i.pinimg.com/736x/34/d8/b0/34d8b0f8cbd03d6b344e539c42246bc9.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <!-- Latar Belakang Backdrop Mobile Drawer -->
+    <div class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true"></div>
+
+    <!-- Navigasi Sidebar Desktop & Off-Canvas Drawer Mobile -->
+    <aside class="app-sidebar" id="appSidebar" aria-label="Navigasi Utama">
+      <div class="sidebar-header">
+        <div class="brand-lockup">
+          <div class="brand-avatar">
+            <img src="https://i.pinimg.com/736x/34/d8/b0/34d8b0f8cbd03d6b344e539c42246bc9.jpg" alt="Logo Posyandu RW 032 Taman Elok" width="44" height="44">
+          </div>
+          <div class="brand-text">
+            <span class="brand-title">POSYANDU RW 032</span>
+            <span class="brand-subtitle">Taman Elok</span>
+          </div>
+        </div>
+        <button type="button" class="icon-btn sidebar-collapse-btn" id="sidebarCollapseBtn" aria-label="Ciutkan atau perluas menu samping" title="Ubah lebar menu">
+          <i data-lucide="panel-left-close"></i>
+        </button>
+        <button type="button" class="icon-btn drawer-close-btn" id="drawerCloseBtn" aria-label="Tutup menu navigasi">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Menu Utama Aplikasi">
+        <div class="nav-group-label">MENU UTAMA</div>
+        <button type="button" class="nav-item active" data-route="dashboard" aria-current="page">
+          <i data-lucide="layout-dashboard"></i>
+          <span class="nav-label-text">Ringkasan</span>
+        </button>
+        <button type="button" class="nav-item" data-route="peserta">
+          <i data-lucide="users-round"></i>
+          <span class="nav-label-text">Data Peserta</span>
+        </button>
+        <button type="button" class="nav-item" data-route="pelayanan">
+          <i data-lucide="clipboard-check"></i>
+          <span class="nav-label-text">Pelayanan Bulanan</span>
+        </button>
+        <button type="button" class="nav-item" data-route="jadwal">
+          <i data-lucide="calendar-days"></i>
+          <span class="nav-label-text">Jadwal Kegiatan</span>
+        </button>
+        <button type="button" class="nav-item" data-route="laporan">
+          <i data-lucide="bar-chart-3"></i>
+          <span class="nav-label-text">Laporan SKDN</span>
+        </button>
+
+        <div class="nav-group-label">LAYANAN WARGA</div>
+        <button type="button" class="nav-item" data-route="publik">
+          <i data-lucide="globe"></i>
+          <span class="nav-label-text">Portal Warga</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="security-card">
+          <div class="security-header">
+            <i data-lucide="shield-check"></i>
+            <span>Data Terlindungi</span>
+          </div>
+          <p>Akses data peserta hanya diperuntukkan bagi kader dan petugas berwenang.</p>
+        </div>
+
+        <div class="user-profile-box">
+          <div class="avatar-badge">AD</div>
+          <div class="user-meta">
+            <strong>Admin Posyandu</strong>
+            <span>Administrator RW 032</span>
+          </div>
+          <button type="button" class="icon-btn" id="sessionBtn" aria-label="Status sesi petugas" title="Info Sesi">
+            <i data-lucide="log-out"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Area Konten Utama -->
+    <div class="app-main">
+      <!-- Header Adaptif Sticky -->
+      <header class="app-header">
+        <div class="header-left">
+          <button type="button" class="icon-btn mobile-menu-trigger" id="mobileMenuBtn" aria-label="Buka menu navigasi">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="header-context">
+            <strong class="header-org">Posyandu RW 032 Taman Elok</strong>
+            <span class="header-loc">Kelurahan Bekasi · Kecamatan Babelan</span>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <time class="header-date" id="todayLabel"></time>
+          <button type="button" class="icon-btn" id="themeToggleBtn" aria-label="Ganti tema tampilan terang atau gelap" title="Ganti Tema">
+            <i data-lucide="moon" id="themeIcon"></i>
+          </button>
+          <button type="button" class="icon-btn notification-btn" id="noticeBtn" aria-label="Notifikasi aktivitas">
+            <i data-lucide="bell"></i>
+            <span class="notification-dot" aria-hidden="true"></span>
+          </button>
+          <div class="avatar-badge header-avatar" aria-hidden="true">AD</div>
+        </div>
+      </header>
+
+      <!-- Kanvas Halaman Dinamis -->
+      <main class="app-content" id="mainContent">
+        <!-- VIEW 1: RINGKASAN / DASHBOARD -->
+        <section class="page-view active" id="view-dashboard" aria-labelledby="heading-dashboard">
+          <div class="page-header">
+            <span class="eyebrow">PUSAT INFORMASI</span>
+            <h1 class="page-title" id="heading-dashboard">Selamat pagi, Admin! 🌿</h1>
+            <p class="page-subtitle">Berikut ringkasan aktivitas pelayanan kesehatan Posyandu hari ini.</p>
+          </div>
+
+          <div class="hero-banner">
+            <div class="hero-content">
+              <span class="hero-tag">POSYANDU DIGITAL IHSAN</span>
+              <h2>Sehat bersama, tumbuh lebih baik.</h2>
+              <p>Kelola data balita, pantau tumbuh kembang, dan tingkatkan pelayanan kesehatan masyarakat dalam satu aplikasi terpadu.</p>
+              <button type="button" class="btn btn-light" data-goto="pelayanan">
+                <i data-lucide="plus"></i>
+                <span>Catat Pelayanan Hari Ini</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Kartu KPI Responsif -->
+          <div class="kpi-grid">
+            <article class="surface-card stat-card">
+              <div class="stat-top">
+                <span class="stat-label">Total Balita</span>
+                <div class="stat-icon tone-emerald"><i data-lucide="baby"></i></div>
+              </div>
+              <div class="stat-value" id="statBalita">128</div>
+              <p class="stat-note"><strong class="text-positive">+6</strong> peserta terdaftar bulan ini</p>
+            </article>
+
+            <article class="surface-card stat-card">
+              <div class="stat-top">
+                <span class="stat-label">Hadir Bulan Ini</span>
+                <div class="stat-icon tone-info"><i data-lucide="calendar-check"></i></div>
+              </div>
+              <div class="stat-value" id="statHadir">96</div>
+              <p class="stat-note">Dari 128 peserta balita sasaran</p>
+            </article>
+
+            <article class="surface-card stat-card">
+              <div class="stat-top">
+                <span class="stat-label">Ibu Hamil</span>
+                <div class="stat-icon tone-amber"><i data-lucide="heart"></i></div>
+              </div>
+              <div class="stat-value">24</div>
+              <p class="stat-note">3 peserta perlu pemantauan lanjutan</p>
+            </article>
+
+            <article class="surface-card stat-card">
+              <div class="stat-top">
+                <span class="stat-label">Jadwal Terdekat</span>
+                <div class="stat-icon tone-violet"><i data-lucide="clock-3"></i></div>
+              </div>
+              <div class="stat-value stat-value-sm">30 Nov</div>
+              <p class="stat-note">Posyandu Balita · 08.00 WIB</p>
+            </article>
+          </div>
+
+          <!-- Grafik & Agenda -->
+          <div class="dashboard-split">
+            <article class="surface-card panel-card">
+              <div class="section-head">
+                <div>
+                  <h3>Ringkasan Kehadiran</h3>
+                  <p class="muted-text">Partisipasi peserta dalam 6 bulan terakhir</p>
+                </div>
+                <span class="status-pill pill-success">+12% <i data-lucide="trending-up"></i></span>
+              </div>
+              <div class="chart-bars" id="attendanceChart" role="img" aria-label="Grafik batang kehadiran 6 bulan terakhir"></div>
+              <div class="chart-labels" aria-hidden="true">
+                <span>Jun</span><span>Jul</span><span>Agu</span><span>Sep</span><span>Okt</span><span>Nov</span>
+              </div>
+            </article>
+
+            <article class="surface-card panel-card">
+              <div class="section-head">
+                <h3>Agenda Mendatang</h3>
+                <button type="button" class="link-btn" data-goto="jadwal">Lihat semua</button>
+              </div>
+              <div class="agenda-stack" id="upcomingList">
+                <div class="agenda-mini-item">
+                  <div class="date-chip tone-emerald">
+                    <strong>30</strong>
+                    <span>NOV</span>
+                  </div>
+                  <div class="agenda-mini-body">
+                    <strong>Posyandu Balita</strong>
+                    <p>08.00–11.00 WIB · Balai RW 02</p>
+                    <span class="status-pill pill-success">Akan datang</span>
+                  </div>
+                </div>
+                <div class="agenda-mini-item">
+                  <div class="date-chip tone-amber">
+                    <strong>05</strong>
+                    <span>DES</span>
+                  </div>
+                  <div class="agenda-mini-body">
+                    <strong>Penyuluhan Gizi</strong>
+                    <p>09.00–10.30 WIB · Balai RW 02</p>
+                    <span class="status-pill pill-info">Edukasi</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- Aktivitas Terbaru -->
+          <article class="surface-card panel-card">
+            <div class="section-head">
+              <h3>Aktivitas Terbaru</h3>
+              <span class="muted-text">Hari ini</span>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Peserta</th>
+                    <th>Aktivitas</th>
+                    <th>Waktu</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="recentActivity">
+                  <tr>
+                    <td>
+                      <div class="entity-cell">
+                        <div class="avatar-badge sm">NA</div>
+                        <strong>Nadia Aulia</strong>
+                      </div>
+                    </td>
+                    <td>Pengukuran berat badan</td>
+                    <td>09.42 WIB</td>
+                    <td><span class="status-pill pill-success">Tercatat</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="entity-cell">
+                        <div class="avatar-badge sm">RF</div>
+                        <strong>Rafa Fadillah</strong>
+                      </div>
+                    </td>
+                    <td>Pemberian vitamin A</td>
+                    <td>09.18 WIB</td>
+                    <td><span class="status-pill pill-success">Tercatat</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <!-- VIEW 2: DATA PESERTA -->
+        <section class="page-view" id="view-peserta" aria-labelledby="heading-peserta">
+          <div class="page-header-row">
+            <div>
+              <span class="eyebrow">MASTER DATA</span>
+              <h1 class="page-title" id="heading-peserta">Data Peserta</h1>
+              <p class="page-subtitle">Kelola data balita, ibu hamil, dan lansia wilayah RW 032.</p>
+            </div>
+            <button type="button" class="btn btn-primary" id="openParticipantModalBtn">
+              <i data-lucide="user-plus"></i>
+              <span>Tambah Peserta</span>
+            </button>
+          </div>
+
+          <div class="surface-card filter-bar">
+            <div class="search-input-wrap">
+              <i data-lucide="search"></i>
+              <input type="search" class="form-input has-icon" id="participantSearch" placeholder="Cari nama atau ID peserta..." aria-label="Cari nama atau ID peserta">
+            </div>
+            <select class="form-select" id="categoryFilter" aria-label="Filter berdasarkan kategori">
+              <option value="semua">Semua Kategori</option>
+              <option value="Balita">Balita</option>
+              <option value="Ibu Hamil">Ibu Hamil</option>
+              <option value="Lansia">Lansia</option>
+            </select>
+            <select class="form-select" id="statusFilter" aria-label="Filter berdasarkan status">
+              <option value="semua">Semua Status</option>
+              <option value="Aktif">Aktif</option>
+              <option value="Pemantauan">Pemantauan</option>
+            </select>
+          </div>
+
+          <article class="surface-card table-card">
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Nama Peserta</th>
+                    <th>ID Peserta</th>
+                    <th>Kategori</th>
+                    <th>Tanggal Lahir</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="participantRows"></tbody>
+              </table>
+            </div>
+            <div class="table-footer">
+              <span id="participantCount"></span>
+              <span>Data contoh untuk simulasi sistem</span>
+            </div>
+          </article>
+        </section>
+
+        <!-- VIEW 3: PELAYANAN BULANAN -->
+        <section class="page-view" id="view-pelayanan" aria-labelledby="heading-pelayanan">
+          <div class="page-header">
+            <span class="eyebrow">TRANSAKSI BULANAN</span>
+            <h1 class="page-title" id="heading-pelayanan">Pelayanan Bulanan</h1>
+            <p class="page-subtitle">Catat kunjungan, pengukuran antropometri, dan imunisasi peserta.</p>
+          </div>
+
+          <div class="service-layout">
+            <article class="surface-card panel-card">
+              <div class="section-head">
+                <h3>Formulir Pemeriksaan</h3>
+                <span class="status-pill pill-info">November 2026</span>
+              </div>
+
+              <form id="serviceForm" class="form-grid">
+                <div class="form-field col-span-6">
+                  <label class="form-label" for="serviceParticipant">Nama Peserta *</label>
+                  <select class="form-select" id="serviceParticipant" required></select>
+                </div>
+
+                <div class="form-field col-span-6">
+                  <label class="form-label" for="serviceDate">Tanggal Pemeriksaan *</label>
+                  <input type="date" class="form-input" id="serviceDate" required value="2026-11-26">
+                </div>
+
+                <div class="form-field col-span-4">
+                  <label class="form-label" for="weight">Berat Badan (kg)</label>
+                  <input type="number" step="0.1" min="0" class="form-input" id="weight" placeholder="Contoh: 10.5">
+                </div>
+
+                <div class="form-field col-span-4">
+                  <label class="form-label" for="height">Tinggi / Panjang (cm)</label>
+                  <input type="number" step="0.1" min="0" class="form-input" id="height" placeholder="Contoh: 78.2">
+                </div>
+
+                <div class="form-field col-span-4">
+                  <label class="form-label" for="head">Lingkar Kepala (cm)</label>
+                  <input type="number" step="0.1" min="0" class="form-input" id="head" placeholder="Contoh: 46.0">
+                </div>
+
+                <div class="form-field col-span-6">
+                  <label class="form-label" for="immunization">Imunisasi / Vitamin</label>
+                  <select class="form-select" id="immunization">
+                    <option value="">Tidak ada</option>
+                    <option>Vitamin A</option>
+                    <option>Imunisasi DPT</option>
+                    <option>Imunisasi Polio</option>
+                    <option>Imunisasi Campak</option>
+                    <option>Obat cacing</option>
+                  </select>
+                </div>
+
+                <div class="form-field col-span-6">
+                  <label class="form-label" for="serviceNote">Catatan Petugas</label>
+                  <input type="text" class="form-input" id="serviceNote" placeholder="Catatan singkat (opsional)">
+                </div>
+
+                <div class="form-field col-span-12">
+                  <div class="info-callout">
+                    <i data-lucide="info"></i>
+                    <span>Data hasil pemeriksaan demo disimpan sementara pada sesi ini. Penilaian status gizi klinis memerlukan kurva standar WHO dan validasi tenaga kesehatan.</span>
+                  </div>
+                </div>
+
+                <div class="form-field col-span-12 form-actions">
+                  <button type="submit" class="btn btn-primary">
+                    <i data-lucide="save"></i>
+                    <span>Simpan Pemeriksaan</span>
+                  </button>
+                </div>
+              </form>
+            </article>
+
+            <article class="surface-card panel-card">
+              <div class="section-head">
+                <h3>Rekap Hari Ini</h3>
+              </div>
+              <div class="rekap-counter" id="serviceTotal">0</div>
+              <p class="muted-text">pemeriksaan tercatat pada sesi ini</p>
+
+              <div class="progress-track" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-fill" style="width: 75%"></div>
+              </div>
+              <div class="progress-meta">
+                <span>Target kunjungan bulanan</span>
+                <strong>75 / 100</strong>
+              </div>
+
+              <div class="divider"></div>
+              <h4 class="mini-heading">Layanan Tercatat</h4>
+              <div class="service-history-list" id="serviceHistory">
+                <p class="muted-text">Belum ada pemeriksaan baru pada sesi ini.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- VIEW 4: JADWAL KEGIATAN -->
+        <section class="page-view" id="view-jadwal" aria-labelledby="heading-jadwal">
+          <div class="page-header-row">
+            <div>
+              <span class="eyebrow">PERENCANAAN</span>
+              <h1 class="page-title" id="heading-jadwal">Jadwal Kegiatan</h1>
+              <p class="page-subtitle">Agenda pelayanan rutin dan edukasi kesehatan Posyandu.</p>
+            </div>
+            <button type="button" class="btn btn-primary" id="openScheduleModalBtn">
+              <i data-lucide="calendar-plus"></i>
+              <span>Tambah Agenda</span>
+            </button>
+          </div>
+
+          <article class="surface-card panel-card">
+            <div class="section-head">
+              <h3>November 2026</h3>
+              <span class="status-pill pill-success" id="scheduleBadge">3 agenda terjadwal</span>
+            </div>
+            <div class="week-strip">
+              <div class="day-cell"><small>MIN</small><strong>22</strong></div>
+              <div class="day-cell"><small>SEN</small><strong>23</strong></div>
+              <div class="day-cell"><small>SEL</small><strong>24</strong></div>
+              <div class="day-cell"><small>RAB</small><strong>25</strong></div>
+              <div class="day-cell is-today"><small>KAM</small><strong>26</strong></div>
+              <div class="day-cell"><small>JUM</small><strong>27</strong></div>
+              <div class="day-cell"><small>SAB</small><strong>28</strong></div>
+            </div>
+            <div class="legend-row">
+              <span><i class="dot dot-primary"></i> Hari ini</span>
+              <span><i class="dot dot-amber"></i> Terdapat agenda pelayanan</span>
+            </div>
+          </article>
+
+          <article class="surface-card panel-card">
+            <div class="section-head">
+              <h3>Daftar Agenda</h3>
+              <select class="form-select compact-select" id="scheduleFilter" aria-label="Filter kategori jadwal">
+                <option value="semua">Semua Kegiatan</option>
+                <option value="Balita">Balita</option>
+                <option value="Edukasi">Edukasi</option>
+                <option value="Lansia">Lansia</option>
+              </select>
+            </div>
+            <div class="schedule-stack" id="scheduleList"></div>
+          </article>
+        </section>
+
+        <!-- VIEW 5: LAPORAN SKDN -->
+        <section class="page-view" id="view-laporan" aria-labelledby="heading-laporan">
+          <div class="page-header">
+            <span class="eyebrow">ANALISIS & PELAPORAN</span>
+            <h1 class="page-title" id="heading-laporan">Laporan Posyandu (SKDN)</h1>
+            <p class="page-subtitle">Ringkasan indikator cakupan pelayanan untuk evaluasi bulanan.</p>
+          </div>
+
+          <div class="kpi-grid cols-3">
+            <article class="surface-card stat-card">
+              <span class="stat-label">S (Sasaran)</span>
+              <div class="stat-value">128</div>
+              <p class="stat-note">Total balita terdaftar di RW 032</p>
+            </article>
+            <article class="surface-card stat-card">
+              <span class="stat-label">K (Kartu)</span>
+              <div class="stat-value">124</div>
+              <p class="stat-note">Memiliki buku KIA / KMS</p>
+            </article>
+            <article class="surface-card stat-card">
+              <span class="stat-label">D (Ditimbang)</span>
+              <div class="stat-value" id="reportD">96</div>
+              <p class="stat-note">Balita hadir dan ditimbang bulan ini</p>
+            </article>
+          </div>
+
+          <article class="surface-card panel-card">
+            <div class="section-head">
+              <h3>Rekapitulasi Indikator SKDN</h3>
+              <span class="status-pill pill-info">Evaluasi Bulanan</span>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Indikator</th>
+                    <th>Jumlah</th>
+                    <th>Persentase</th>
+                    <th>Catatan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>S</strong> — Sasaran</td>
+                    <td>128</td>
+                    <td>100%</td>
+                    <td>Seluruh peserta balita</td>
+                  </tr>
+                  <tr>
+                    <td><strong>K</strong> — Memiliki KMS</td>
+                    <td>124</td>
+                    <td>96,9%</td>
+                    <td>Kartu Menuju Sehat / Buku KIA</td>
+                  </tr>
+                  <tr>
+                    <td><strong>D</strong> — Ditimbang</td>
+                    <td id="reportD2">96</td>
+                    <td>75,0%</td>
+                    <td>Hadir dan diukur berat/tinggi</td>
+                  </tr>
+                  <tr>
+                    <td><strong>N</strong> — Naik Berat Badan</td>
+                    <td>72</td>
+                    <td>56,3%</td>
+                    <td>Perlu validasi kurva pertumbuhan</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="footnote-text">Angka di atas merupakan data simulasi untuk demonstrasi antarmuka, bukan laporan resmi dinas kesehatan.</p>
+          </article>
+        </section>
+
+        <!-- VIEW 6: PORTAL WARGA (HALAMAN PUBLIK) -->
+        <section class="page-view" id="view-publik" aria-labelledby="heading-publik">
+          <div class="page-header">
+            <span class="eyebrow">PORTAL WARGA</span>
+            <h1 class="page-title" id="heading-publik">Informasi Posyandu</h1>
+            <p class="page-subtitle">Akses informasi jadwal pelayanan, edukasi gizi, dan kalkulator awal untuk masyarakat.</p>
+          </div>
+
+          <div class="surface-card subnav-bar">
+            <div class="subnav-tabs" role="tablist" aria-label="Menu Portal Warga">
+              <button type="button" class="subtab active" data-public="home" role="tab" aria-selected="true">Beranda</button>
+              <button type="button" class="subtab" data-public="layanan" role="tab" aria-selected="false">Jadwal & Layanan</button>
+              <button type="button" class="subtab" data-public="edukasi" role="tab" aria-selected="false">Edukasi Gizi</button>
+              <button type="button" class="subtab" data-public="kalkulator" role="tab" aria-selected="false">Cek Status Gizi</button>
+              <button type="button" class="subtab" data-public="kontak" role="tab" aria-selected="false">Kontak</button>
+            </div>
+            <span class="status-pill pill-success">Terbuka untuk warga</span>
+          </div>
+
+          <div id="public-home" class="public-panel">
+            <div class="hero-banner">
+              <div class="hero-content">
+                <span class="hero-tag">SALAM SEHAT KELUARGA</span>
+                <h2>Langkah kecil hari ini, masa depan sehat nanti.</h2>
+                <p>Posyandu hadir mendampingi tumbuh kembang buah hati dan kesehatan seluruh keluarga di lingkungan RW 032 Taman Elok.</p>
+                <button type="button" class="btn btn-light" data-public="layanan">
+                  <span>Lihat Jadwal Layanan</span>
+                  <i data-lucide="arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="kpi-grid cols-3">
+              <article class="surface-card feature-card">
+                <div class="stat-icon tone-emerald"><i data-lucide="calendar-heart"></i></div>
+                <h3>Jadwal Posyandu</h3>
+                <p>30 November 2026 · Mulai pukul 08.00 WIB di Balai RW 02.</p>
+              </article>
+              <article class="surface-card feature-card">
+                <div class="stat-icon tone-emerald"><i data-lucide="baby"></i></div>
+                <h3>Pantau Tumbuh Kembang</h3>
+                <p>Datang rutin setiap bulan untuk penimbangan dan pengukuran tinggi anak.</p>
+              </article>
+              <article class="surface-card feature-card">
+                <div class="stat-icon tone-emerald"><i data-lucide="book-open-check"></i></div>
+                <h3>Edukasi Kesehatan</h3>
+                <p>Informasi gizi seimbang, jadwal imunisasi, dan kesehatan ibu hamil.</p>
+              </article>
+            </div>
+          </div>
+
+          <div id="public-layanan" class="public-panel hidden">
+            <article class="surface-card panel-card">
+              <h3 class="panel-heading">Jadwal dan Jenis Layanan Warga</h3>
+              <div class="service-promo-list">
+                <div class="promo-row tone-emerald">
+                  <div>
+                    <strong>Posyandu Balita</strong>
+                    <p>Penimbangan berat badan, pengukuran tinggi, imunisasi dasar, dan pemberian vitamin A.</p>
+                  </div>
+                  <span class="promo-time">30 Nov · 08.00 WIB</span>
+                </div>
+                <div class="promo-row tone-amber">
+                  <div>
+                    <strong>Penyuluhan Gizi Keluarga</strong>
+                    <p>Konsultasi MPASI, gizi seimbang, dan pencegahan stunting bersama kader kesehatan.</p>
+                  </div>
+                  <span class="promo-time">05 Des · 09.00 WIB</span>
+                </div>
+                <div class="promo-row tone-info">
+                  <div>
+                    <strong>Pemeriksaan Kesehatan Lansia</strong>
+                    <p>Pengecekan tekanan darah, senam ringan, dan konsultasi kebugaran rutin.</p>
+                  </div>
+                  <span class="promo-time">12 Des · 08.30 WIB</span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div id="public-edukasi" class="public-panel hidden">
+            <div class="education-grid">
+              <article class="surface-card feature-card">
+                <div class="stat-icon tone-emerald"><i data-lucide="apple"></i></div>
+                <h3>Isi Piring Seimbang</h3>
+                <p>Lengkapi menu harian keluarga dengan sumber karbohidrat, protein hewani/nabati, sayuran, dan buah sesuai usia.</p>
+              </article>
+              <article class="surface-card feature-card">
+                <div class="stat-icon tone-emerald"><i data-lucide="ruler"></i></div>
+                <h3>Pantau Pertumbuhan</h3>
+                <p>Pengukuran berat dan panjang/tinggi badan secara berkala membantu mendeteksi gangguan pertumbuhan sejak dini.</p>
+              </article>
+              <article class="surface-card feature-card">
+                <div class="stat-icon tone-emerald"><i data-lucide="syringe"></i></div>
+                <h3>Imunisasi Dasar Lengkap</h3>
+                <p>Selalu bawa buku KIA saat berkunjung dan konsultasikan jadwal imunisasi anak dengan bidan setempat.</p>
+              </article>
+              <article class="surface-card feature-card">
+                <div class="stat-icon tone-emerald"><i data-lucide="hand-heart"></i></div>
+                <h3>Cegah Stunting Sejak Dini</h3>
+                <p>Perhatikan asupan gizi ibu hamil, ASI eksklusif, MPASI bergizi, sanitasi bersih, dan pemeriksaan rutin.</p>
+              </article>
+            </div>
+          </div>
+
+          <div id="public-kalkulator" class="public-panel hidden">
+            <article class="surface-card panel-card narrow-card">
+              <h3 class="panel-heading">Kalkulator Pertumbuhan Sederhana</h3>
+              <p class="page-subtitle">Masukkan data pengukuran anak untuk menghitung Indeks Massa Tubuh (IMT) sebagai informasi awal.</p>
+
+              <form id="bmiForm" class="form-grid">
+                <div class="form-field col-span-4">
+                  <label class="form-label" for="bmiAge">Usia (bulan)</label>
+                  <input id="bmiAge" type="number" min="0" max="60" class="form-input" required placeholder="Contoh: 24">
+                </div>
+                <div class="form-field col-span-4">
+                  <label class="form-label" for="bmiWeight">Berat Badan (kg)</label>
+                  <input id="bmiWeight" type="number" min="0.1" step="0.1" class="form-input" required placeholder="Contoh: 12.0">
+                </div>
+                <div class="form-field col-span-4">
+                  <label class="form-label" for="bmiHeight">Tinggi Badan (cm)</label>
+                  <input id="bmiHeight" type="number" min="1" step="0.1" class="form-input" required placeholder="Contoh: 86.0">
+                </div>
+                <div class="form-field col-span-12">
+                  <button type="submit" class="btn btn-primary">Hitung IMT</button>
+                </div>
+              </form>
+
+              <div id="bmiResult" class="result-box hidden" role="status" aria-live="polite"></div>
+              <p class="footnote-text">Nilai IMT saja tidak menentukan diagnosis status gizi balita. Penilaian klinis harus menggunakan standar antropometri WHO menurut usia dan jenis kelamin oleh tenaga kesehatan.</p>
+            </article>
+          </div>
+
+          <div id="public-kontak" class="public-panel hidden">
+            <article class="surface-card panel-card narrow-card">
+              <h3 class="panel-heading">Kontak dan Lokasi Pelayanan</h3>
+              <div class="contact-item">
+                <i data-lucide="map-pin"></i>
+                <div>
+                  <strong>Posyandu RW 032 Taman Elok</strong>
+                  <p>Balai RW 02, Kelurahan Bekasi, Kecamatan Babelan (Alamat Simulasi)</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <i data-lucide="phone"></i>
+                <div>
+                  <strong>Kader Posyandu Setempat</strong>
+                  <p>Hubungi kader kesehatan melalui pengurus RT/RW 032 Taman Elok.</p>
+                </div>
+              </div>
+              <div class="info-callout">
+                <i data-lucide="info"></i>
+                <span>Koordinat peta dan nomor layanan darurat resmi dapat ditautkan setelah verifikasi pengurus RW setempat.</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Footer Aplikasi -->
+        <footer class="app-footer">
+          <span>© 2026 Digital Ihsan Bekasi 2 · Sistem Informasi Posyandu RW 032 Taman Elok</span>
+          <div class="footer-links">
+            <button type="button" class="link-btn" data-goto="dashboard">Ringkasan</button>
+            <button type="button" class="link-btn" data-goto="jadwal">Jadwal</button>
+            <button type="button" class="link-btn" data-goto="publik">Portal Warga</button>
+            <span>Dikembangkan oleh <a href="https://wasobi-technology-indonesia.webflow.io/" target="_blank" rel="noopener">WasobiTech Studio AI</a></span>
+          </div>
+        </footer>
+      </main>
+    </div>
+
+    <!-- Bottom Tab Navigation Ergonomis Mobile (< 768px) -->
+    <nav class="mobile-bottom-nav" aria-label="Navigasi Cepat Seluler">
+      <button type="button" class="bottom-tab active" data-route="dashboard" aria-current="page">
+        <i data-lucide="layout-dashboard"></i>
+        <span>Beranda</span>
+      </button>
+      <button type="button" class="bottom-tab" data-route="peserta">
+        <i data-lucide="users-round"></i>
+        <span>Peserta</span>
+      </button>
+      <button type="button" class="bottom-tab" data-route="pelayanan">
+        <i data-lucide="clipboard-check"></i>
+        <span>Layanan</span>
+      </button>
+      <button type="button" class="bottom-tab" data-route="jadwal">
+        <i data-lucide="calendar-days"></i>
+        <span>Jadwal</span>
+      </button>
+      <button type="button" class="bottom-tab" id="bottomMoreBtn" aria-label="Buka menu lainnya">
+        <i data-lucide="menu"></i>
+        <span>Menu</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Notifikasi Toast -->
+  <div class="toast-region" aria-live="polite" aria-atomic="true">
+    <div class="app-toast" id="appToast" role="status">
+      <i data-lucide="check-circle-2"></i>
+      <span id="toastMessage">Berhasil.</span>
+    </div>
+  </div>
+
+  <!-- Modal Tambah Peserta -->
+  <div class="modal-overlay" id="participantModal" role="dialog" aria-modal="true" aria-labelledby="participantModalTitle" hidden>
+    <div class="modal-dialog">
+      <form id="participantForm">
+        <div class="modal-header">
+          <h2 id="participantModalTitle">Tambah Peserta Baru</h2>
+          <button type="button" class="icon-btn" data-close-modal="participantModal" aria-label="Tutup jendela">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-field col-span-12">
+              <label class="form-label" for="newName">Nama Lengkap *</label>
+              <input type="text" class="form-input" id="newName" required placeholder="Masukkan nama lengkap peserta">
+            </div>
+            <div class="form-field col-span-6">
+              <label class="form-label" for="newCategory">Kategori *</label>
+              <select class="form-select" id="newCategory" required>
+                <option value="Balita">Balita</option>
+                <option value="Ibu Hamil">Ibu Hamil</option>
+                <option value="Lansia">Lansia</option>
+              </select>
+            </div>
+            <div class="form-field col-span-6">
+              <label class="form-label" for="newBirth">Tanggal Lahir *</label>
+              <input type="date" class="form-input" id="newBirth" required>
+            </div>
+            <div class="form-field col-span-12">
+              <label class="form-label" for="newGuardian">Nama Orang Tua / Pendamping</label>
+              <input type="text" class="form-input" id="newGuardian" placeholder="Nama orang tua atau keluarga pendamping">
+            </div>
+            <div class="form-field col-span-12">
+              <label class="form-label" for="newStatus">Status Pemantauan</label>
+              <select class="form-select" id="newStatus">
+                <option value="Aktif">Aktif</option>
+                <option value="Pemantauan">Pemantauan</option>
+              </select>
+            </div>
+            <div class="form-field col-span-12">
+              <p class="footnote-text">Gunakan data simulasi saat demonstrasi. Hindari memasukkan NIK atau data kependudukan asli.</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal="participantModal">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Peserta</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Tambah Agenda -->
+  <div class="modal-overlay" id="scheduleModal" role="dialog" aria-modal="true" aria-labelledby="scheduleModalTitle" hidden>
+    <div class="modal-dialog">
+      <form id="scheduleForm">
+        <div class="modal-header">
+          <h2 id="scheduleModalTitle">Tambah Agenda Kegiatan</h2>
+          <button type="button" class="icon-btn" data-close-modal="scheduleModal" aria-label="Tutup jendela">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-field col-span-12">
+              <label class="form-label" for="newScheduleName">Nama Kegiatan *</label>
+              <input type="text" class="form-input" id="newScheduleName" required placeholder="Contoh: Posyandu Balita Rutin">
+            </div>
+            <div class="form-field col-span-6">
+              <label class="form-label" for="newScheduleDate">Tanggal *</label>
+              <input type="date" class="form-input" id="newScheduleDate" required>
+            </div>
+            <div class="form-field col-span-6">
+              <label class="form-label" for="newScheduleTime">Waktu Pelaksanaan</label>
+              <input type="text" class="form-input" id="newScheduleTime" placeholder="08.00–11.00 WIB">
+            </div>
+            <div class="form-field col-span-12">
+              <label class="form-label" for="newScheduleCategory">Kategori Kegiatan</label>
+              <select class="form-select" id="newScheduleCategory">
+                <option value="Balita">Balita</option>
+                <option value="Edukasi">Edukasi</option>
+                <option value="Ibu Hamil">Ibu Hamil</option>
+                <option value="Lansia">Lansia</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal="scheduleModal">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Agenda</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="script.js"></script>
+</body>
+</html>
